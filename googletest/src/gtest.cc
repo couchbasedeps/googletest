@@ -4985,6 +4985,9 @@ class ClassUniqueToAlwaysTrue {};
 
 bool IsTrue(bool condition) { return condition; }
 
+// For Clang static analyzer we define this inline so Clang knows it
+// always returns true - see gtest-internal.h
+#ifndef __clang_analyzer__
 bool AlwaysTrue() {
 #if GTEST_HAS_EXCEPTIONS
   // This condition is always false so AlwaysTrue() never actually throws,
@@ -4994,6 +4997,7 @@ bool AlwaysTrue() {
 #endif  // GTEST_HAS_EXCEPTIONS
   return true;
 }
+#endif
 
 // If *pstr starts with the given prefix, modifies *pstr to be right
 // past the prefix and returns true; otherwise leaves *pstr unchanged
